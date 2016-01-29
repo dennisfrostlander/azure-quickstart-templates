@@ -14,7 +14,12 @@ Param(
 
 Write-Verbose "Entering InstallVSOAgent.ps1" -verbose
 
-$currentLocation = Split-Path -parent $MyInvocation.MyCommand.Definition
+$currentLocation = "$Env:SystemDrive\vsagent"
+
+md "$currentLocation"
+cd "$currentLocation"
+Start-Transcript -path "$currentLocation\log.txt" -append
+
 Write-Verbose "Current folder: $currentLocation" -verbose
 
 $serverUrl = "https://$VSOAccount.visualstudio.com"
@@ -80,3 +85,5 @@ New-Item -ItemType Directory -Force -Path $WorkFolder
 Write-Verbose "Agent install output: $LASTEXITCODE" -Verbose
 
 Write-Verbose "Exiting InstallVSOAgent.ps1" -Verbose
+
+Stop-Transcript
